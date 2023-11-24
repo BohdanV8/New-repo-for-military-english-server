@@ -279,6 +279,36 @@ router.post("/unsubscribe/:courseId", async (req, res) => {
   }
 });
 
+router.patch("/updateCourse/:id", upload.single("file"), async (req, res) => {
+  const courseId = req.params.id;
+  const file = req.file;
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ error: "Курс не знайдений" });
+    }
+    if (req.body.title) {
+      course.title = req.body.title;
+    }
+    if (file) {
+      course.url_of_photo = file.filename;
+    }
+    if (req.body.id_of_category) {
+      course.id_of_category = req.body.id_of_category;
+    }
+    if (req.body.description) {
+      course.description = req.body.description;
+    }
+
+    await course.save();
+
+    res.json({ success: true, message: "Інформація про курс оновлена" });
+  } catch (error) {
+    console.error("Помилка оновлення курсу:", error);
+    res.status(500).json({ error: "Внутрішня помилка сервера" });
+  }
+});
+
 router.get("/uploads/:filename", (req, res) => {
   const filename = req.params.filename;
   const filePath = path.join(__dirname, "../uploads/courses", filename);

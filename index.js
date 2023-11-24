@@ -7,7 +7,7 @@ const categoriesRoutes = require("./routes/categories");
 const coursesRoutes = require("./routes/courses");
 const topicsRoutes = require("./routes/topics");
 const materialsRoutes = require("./routes/materials");
-const userRoutes = require("./routes/user")
+const userRoutes = require("./routes/user");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -29,15 +29,6 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Помилка підключення до MongoDB:"));
 db.once("open", async () => {
   console.log("Підключено до MongoDB!");
-  //  const new_category = new Category({
-  //    title: "Для танкістів"
-  //  })
-  //  new_category.save()
-  // await db.createCollection("users");
-  // const users = db.collection("users");
-  // await users.insertOne({ name: "John", age: 20 });
-  // const user = users.findOne({ name: "John" });
-  // console.log(user);
 });
 
 app.use("/api/auth", authRoutes);
