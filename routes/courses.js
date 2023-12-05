@@ -4,6 +4,7 @@ const multer = require("multer");
 const Course = require("../models/course");
 const jwt = require("jsonwebtoken");
 const path = require("path");
+const fs = require("fs");
 const User = require("../models/user");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -291,10 +292,20 @@ router.patch("/updateCourse/:id", upload.single("file"), async (req, res) => {
       course.title = req.body.title;
     }
     if (file) {
+      const filePath = path.join(
+        __dirname,
+        "../uploads/courses",
+        course.url_of_photo
+      );
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error("Помилка видалення файлу:", err);
+        }
+      });
       course.url_of_photo = file.filename;
     }
-    if (req.body.id_of_category) {
-      course.id_of_category = req.body.id_of_category;
+    if (req.body.category) {
+      course.id_of_category = req.body.category;
     }
     if (req.body.description) {
       course.description = req.body.description;

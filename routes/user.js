@@ -49,4 +49,22 @@ router.patch("/changeUserRole", async (req, res) => {
   }
 });
 
+router.delete("/delete/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "користувача не знайдено" });
+    }
+
+    await user.deleteOne();
+    res.json({ success: true, message: "Користувача успішно видалено" });
+  } catch (error) {
+    console.error("Помилка видалення користувача:", error);
+    res.status(500).json({ error: "Внутрішня помилка сервера" });
+  }
+});
+
 module.exports = router;

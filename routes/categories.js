@@ -41,21 +41,21 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.delete('/delete/:categoryId', async (req, res) => {
+router.delete("/delete/:categoryId", async (req, res) => {
   const categoryId = req.params.categoryId;
 
   try {
     const category = await Category.findById(categoryId);
 
     if (!category) {
-      return res.status(404).json({ error: 'Категорію не знайдено' });
+      return res.status(404).json({ error: "Категорію не знайдено" });
     }
 
     await category.deleteOne();
-    res.json({ success: true, message: 'Категорію успішно видалено' });
+    res.json({ success: true, message: "Категорію успішно видалено" });
   } catch (error) {
-    console.error('Помилка видалення категорії:', error);
-    res.status(500).json({ error: 'Внутрішня помилка сервера' });
+    console.error("Помилка видалення категорії:", error);
+    res.status(500).json({ error: "Внутрішня помилка сервера" });
   }
 });
 
